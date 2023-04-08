@@ -1,7 +1,7 @@
 const randomString = [
     {
         yomi: 'この緑茶は美味しい',
-        romaji: 'konoryokutyahaoisii'
+        romaji: 'konoryokutyahaoisii',
     },
     {
         yomi: '天真爛漫な子だ',
