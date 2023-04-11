@@ -32,9 +32,9 @@ io.on('connection', socket => {
     io.to(socket.id).emit('socket_id', socket.id);
 
     socket.on('matching', data => {
-        if (room_info.length !== 0){
-            for (let i = 0; i < room_info.length; i++){
-                if (!room_info[i].matching){
+        if (room_info.length !== 0) {
+            for (let i = 0; i < room_info.length; i++) {
+                if (!room_info[i].matching) {
                     socket.join(room_info[i].roomId);
                     room_info[i].matching = true;
                     room_info[i].user2 = {
@@ -46,9 +46,8 @@ io.on('connection', socket => {
                         room_info: room_info[i],
                         typingString: randamStr(),
                     });
-                    console.log(randamStr());
                     console.log(room_info[i]);
-                } else if (i + 1 === room_info.length){
+                } else if (i + 1 === room_info.length) {
                     const roomId = generateUuid();
                     socket.join(roomId);
                     room_info.push({
@@ -83,9 +82,9 @@ io.on('connection', socket => {
     socket.on('beColored', data => {
         const roomId = data.roomId;
         for (let i of room_info) {
-            if (roomId === i.roomId){
+            if (roomId === i.roomId) {
                 (i.user1.token === data.token) ? io.to(i.user2.token).emit('coloring')
-                : io.to(i.user1.token).emit('coloring');
+                    : io.to(i.user1.token).emit('coloring');
                 break;
             }
         }
@@ -93,10 +92,10 @@ io.on('connection', socket => {
 
     socket.on('changePartnerString', data => {
         const roomId = data.roomId;
-        for (let i of room_info){
-            if (roomId === i.roomId){
+        for (let i of room_info) {
+            if (roomId === i.roomId) {
                 (i.user1.token === data.token) ? io.to(i.user2.token).emit('changeString')
-                : io.to(i.user1.token).emit('changeString');
+                    : io.to(i.user1.token).emit('changeString');
                 break;
             }
         }
@@ -104,10 +103,19 @@ io.on('connection', socket => {
 
     socket.on('backHome', data => {
         const roomId = data.roomId;
-        for (let i of room_info){
-            if (roomId === i.roomId){
+        for (let i of room_info) {
+            if (roomId === i.roomId) {
                 (i.user1.token === data.token) ? io.to(i.user2.token).emit('backHome')
-                : io.to(i.user1.token).emit('backHome');
+                    : io.to(i.user1.token).emit('backHome');
+                break;
+            }
+        }
+    });
+
+    socket.on('matchingStop', data => {
+        for (let i = 0; i < room_info.length; i++) {
+            if (room_info[i].roomId === data.roomId) {
+                room_info.splice(i, 1);
                 break;
             }
         }
