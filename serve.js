@@ -119,7 +119,16 @@ io.on('connection', socket => {
                 break;
             }
         }
-    })
+    });
+
+    socket.on("endMatching", data => {
+        for (let i = 0; i < room_info.length; i++) {
+            if (room_info[i].roomId === data.roomId) {
+                room_info.splice(i, 1);
+                break;
+            }
+        }
+    });
 
     socket.on('disconnect', () => {
         // ウェブブラウザを閉じた際の処理
