@@ -46,7 +46,6 @@ io.on('connection', socket => {
                         room_info: room_info[i],
                         typingString: randamStr(),
                     });
-                    console.log(room_info[i]);
                 } else if (i + 1 === room_info.length) {
                     const roomId = generateUuid();
                     socket.join(roomId);
@@ -113,15 +112,6 @@ io.on('connection', socket => {
     });
 
     socket.on('matchingStop', data => {
-        for (let i = 0; i < room_info.length; i++) {
-            if (room_info[i].roomId === data.roomId) {
-                room_info.splice(i, 1);
-                break;
-            }
-        }
-    });
-
-    socket.on("endMatching", data => {
         for (let i = 0; i < room_info.length; i++) {
             if (room_info[i].roomId === data.roomId) {
                 room_info.splice(i, 1);
